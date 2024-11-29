@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from deothemes.com/envato/deus/html/search-results.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Aug 2023 09:20:49 GMT -->
+<head>
+  <title>KITS NEWS | Search results</title>
+
+  <meta charset="utf-8">
+  <!--[if IE]><meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'><![endif]-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta name="description" content="">
+
+  <!-- Google Fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,600,700%7CSource+Sans+Pro:400,600,700' rel='stylesheet'>
+
+  <!-- Css -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/font-icons.css" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Favicons -->
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.html">
+  <link rel="apple-touch-icon" sizes="72x72" href="img/apple-touch-icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="img/apple-touch-icon-114x114.png">
+
+  <!-- Lazyload (must be placed in head in order to work) -->
+  <script src="js/lazysizes.min.js"></script>
+
+
+
+
+<script>
+          function fetchPopularPosts() {
+            const popularPostsContainer = document.querySelector('.popular-posts');
+            fetch('http://127.0.0.1:5000/popularPosts', {
+                      method: 'GET'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                      const Popularposts = data.available_news.slice(0, 5);
+                      console.log("popularpost---", Popularposts);
+                      Popularposts.forEach((ppost, index) => {
+                        const popularPostHTML = `
+                          <li class="post-list-small__item">
+                            <article class="post-list-small__entry clearfix">
+                              <div class="post-list-small__img-holder">
+                                <div class="thumb-container thumb-100">
+                                  <a href="${ppost.url}">
+                                    <img data-src="${ppost.image}" src="${ppost.image}" alt="" class="post-list-small__img--rounded lazyload">
+                                  </a>
+                                </div>
+                              </div>
+                              <div class="post-list-small__body">
+                                <h3 class="post-list-small__entry-title">
+                                  <a href="${ppost.url}">${ppost.title}</a>
+                                </h3>
+                                <ul class="entry__meta">
+                                  <li class="entry__meta-author">
+                                    <span>by</span>
+                                    <a href="#">${ppost.author}</a>
+                                  </li>
+                                  <li class="entry__meta-date">
+                                    ${ppost.created_at}
+                                  </li>
+                                </ul>
+                              </div>                  
+                            </article>
+                          </li>
+                        `;
+                        popularPostsContainer.insertAdjacentHTML('beforeend', popularPostHTML);
+                      });
+                    })
+                    .catch(error => console.error('Error fetching popular post:', error));
+                  
+          }
+
+      function fetchAllSearch(){
+
+        const urlParams = new URLSearchParams(window.location.search);
+    const postId = urlParams.get('query');
+    console.log("postid---",postId)
+
+        const searchContainer = document.querySelector('#search-container');
+        fetch(`http://127.0.0.1:5000/searchNews/${postId}`, {
+            method: 'GET'
+        })
+        .then(response => response.json())
+        .then(data => {
+            const newsArticles = data.available_news;
+            
+            newsArticles.forEach(article => {
+              const shortDescription = article.description.length > 150 ? `${article.description.substring(0, 170)}...` : article.description;
+                const searchHTML = `
+                
+
+<article class="entry card post-list">
+  <div class="entry__img-holder post-list__img-holder card__img-holder" style="background-image: url(${article.image})">
+    <a href=${article.url}></a>
+    <img src=${article.image} alt="" class="entry__img d-none">
+    <a href="categories.html" class="entry__meta-category entry__meta-category--label entry__meta-category--align-in-corner entry__meta-category--blue">${article.category}</a>
+  </div>
+
+  <div class="entry__body post-list__body card__body">
+    <div class="entry__header">
+      <h2 class="entry__title">
+        <a href="single-post.html">${article.title}</a>
+      </h2>
+      <ul class="entry__meta">
+        <li class="entry__meta-author">
+          <span>by</span>
+          <a href="#">${article.author}</a>
+        </li>
+        <li class="entry__meta-date">
+          ${article.created_at}
+        </li>
+      </ul>
+    </div>        
+    <div class="entry__excerpt">
+      <p>${shortDescription}</p>
+    </div>
+  </div>
+</article>
+                `;
+                searchContainer.insertAdjacentHTML('beforeend', searchHTML);
+})
+fetchPopularPosts();
+              return data; 
+                  })
+                  console.error('Error fetching news:', error);
+                throw error;
+          }
+
+          document.addEventListener("DOMContentLoaded", function() {
+            fetchAllSearch()
+      .then(() => {
+        console.log("Fetching popular posts...");
+        // fetchPopularPosts();
+      })
+      .catch(error => {
+        // Handle error if needed
+        console.error('Error:', error);
+      });
+  });
+     
+  </script>
+
+</head>
+
+<body class="bg-light style-default style-rounded">
+
+  <!-- Preloader -->
+  <div class="loader-mask">
+    <div class="loader">
+      <div></div>
+    </div>
+  </div>
+
+  <!-- Bg Overlay -->
+  <div class="content-overlay"></div>
+
+
+
+  <main class="main oh" id="main">
+
+    <!-- Top Bar -->
+    <div class="top-bar d-none d-lg-block">
+      <div class="container">
+        <div class="row">
+
+          <!-- Top menu -->
+          <div class="col-lg-6">
+            <ul class="top-menu">
+              <li><a href="#">About</a></li>
+              <li><a href="#">Advertise</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          
+          <!-- Socials -->
+          <div class="col-lg-6">
+            <div class="socials nav__socials socials--nobase socials--white justify-content-end"> 
+              <a class="social social-facebook" href="https://facebook.com" target="_blank" aria-label="facebook">
+                <i class="ui-facebook"></i>
+              </a>
+              <a class="social social-twitter" href="#" target="_blank" aria-label="twitter">
+                <i class="ui-twitter"></i>
+              </a>
+              <a class="social social-google-plus" href="#" target="_blank" aria-label="google">
+                <i class="ui-google"></i>
+              </a>
+              <a class="social social-youtube" href="#" target="_blank" aria-label="youtube">
+                <i class="ui-youtube"></i>
+              </a>
+              <a class="social social-instagram" href="#" target="_blank" aria-label="instagram">
+                <i class="ui-instagram"></i>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div> <!-- end top bar -->        
+
+    <!-- Navigation -->
+    <header class="nav">
+
+      <div class="nav__holder nav--sticky">
+        <div class="container relative">
+          <div class="flex-parent">
+
+            
+         
+
+            <!-- Logo -->
+            <a href="index.html" class="logo">
+              <img class="logo__img" src="img/logo_default.png" srcset="img/logo_default.png 1x, img/logo_default@2x.png 2x" alt="logo">
+            </a>
+
+          
+
+            <!-- Nav Right -->
+            <div class="nav__right">
+              <!-- Search -->
+              <div class="nav__right-item nav__search">
+                <a href="#" class="nav__search-trigger" id="nav__search-trigger">
+                  <i class="ui-search nav__search-trigger-icon"></i>
+                </a>
+                <div class="nav__search-box" id="nav__search-box">
+                  <form class="nav__search-form">
+                    <input type="text" placeholder="Search an article" class="nav__search-input" id="searchInput">
+                    <div class="suggestions" id="suggestions"></div>
+                    <button type="submit" class="search-button btn btn-lg btn-color btn-button">
+                      <i class="ui-search nav__search-icon"></i>
+                    </button>
+                  </form>
+                </div>                
+              </div>             
+            </div>             
+        
+          </div> <!-- end flex-parent -->
+        </div> <!-- end container -->
+
+      </div>
+    </header> <!-- end navigation -->
+     
+
+    <div class="main-container container pt-40" id="main-container">         
+
+      <!-- Content -->
+      <div class="row">
+
+        <!-- Posts -->
+        <div class="col-lg-8 blog__content mb-72" id="search-container">
+           <h1 class="page-title">Search results for: Technology</h1>
+
+        </div> <!-- end posts -->
+
+        <!-- Sidebar -->
+        <aside class="col-lg-4 sidebar sidebar--right">
+
+          <!-- Widget Popular Posts -->
+          <aside class="widget widget-popular-posts">
+            <h4 class="widget-title">Popular Posts</h4>
+            <ul class="post-list-small popular-posts">
+            
+            </ul>           
+          </aside> <!-- end widget popular posts -->
+
+
+
+          <!-- Widget Socials -->
+          <aside class="widget widget-socials">
+            <h4 class="widget-title">Let's hang out on social</h4>
+            <div class="socials socials--wide socials--large">
+              <div class="row row-16">
+                <div class="col">
+                  <a class="social social-facebook" href="#" title="facebook" target="_blank" aria-label="facebook">
+                    <i class="ui-facebook"></i>
+                    <span class="social__text">Facebook</span>
+                  </a><!--
+                  --><a class="social social-twitter" href="#" title="twitter" target="_blank" aria-label="twitter">
+                    <i class="ui-twitter"></i>
+                    <span class="social__text">Twitter</span>
+                  </a><!--
+                  --><a class="social social-youtube" href="#" title="youtube" target="_blank" aria-label="youtube">
+                    <i class="ui-youtube"></i>
+                    <span class="social__text">Youtube</span>
+                  </a>
+                </div>
+                <div class="col">
+                  <a class="social social-google-plus" href="#" title="google" target="_blank" aria-label="google">
+                    <i class="ui-google"></i>
+                    <span class="social__text">Google+</span>
+                  </a><!--
+                  --><a class="social social-instagram" href="#" title="instagram" target="_blank" aria-label="instagram">
+                    <i class="ui-instagram"></i>
+                    <span class="social__text">Instagram</span>
+                  </a><!--
+                  --><a class="social social-rss" href="#" title="rss" target="_blank" aria-label="rss">
+                    <i class="ui-rss"></i>
+                    <span class="social__text">Rss</span>
+                  </a>
+                </div>                
+              </div>            
+            </div>
+          </aside> <!-- end widget socials -->
+
+        </aside> <!-- end sidebar -->
+  
+      </div> <!-- end content -->
+    </div> <!-- end main container -->
+
+      <!-- Footer -->
+      <footer class="footer footer--dark">
+        <div class="container">
+          <div class="footer__widgets">
+            <div class="row">
+  
+              <div class="col-lg-3 col-md-6">
+                <aside class="widget widget-logo">
+                  <a href="index.html">
+                    <img src="img/logo_default_white.png" srcset="img/logo_default_white.png 1x, img/logo_default_white@2x.png 2x" class="logo__img" alt="">
+                  </a>
+                  <p class="copyright">
+                    &copy; <script>document.querySelector(".copyright").innerHTML += new Date().getFullYear();</script> Deus  |  Made by <a href="https://deothemes.com/">DeoThemes</a>
+                  </p>
+                  <div class="socials socials--large socials--rounded mb-24">
+                    <a href="#" class="social social-facebook" aria-label="facebook"><i class="ui-facebook"></i></a>
+                    <a href="#" class="social social-twitter" aria-label="twitter"><i class="ui-twitter"></i></a>
+                    <a href="#" class="social social-google-plus" aria-label="google+"><i class="ui-google"></i></a>
+                    <a href="#" class="social social-youtube" aria-label="youtube"><i class="ui-youtube"></i></a>
+                    <a href="#" class="social social-instagram" aria-label="instagram"><i class="ui-instagram"></i></a>
+                  </div>
+                </aside>
+              </div>
+
+  
+              <div class="col-lg-4 col-md-6">
+                <aside class="widget widget-popular-posts">
+                  <h4 class="widget-title">Popular Posts</h4>
+                  <ul class="post-list-small">
+                    <li class="post-list-small__item">
+                      <article class="post-list-small__entry clearfix">
+                        <div class="post-list-small__img-holder">
+                          <div class="thumb-container thumb-100">
+                            <a href="single-post.html">
+                              <img data-src="img/content/post_small/post_small_1.jpg" src="img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
+                            </a>
+                          </div>
+                        </div>
+                        <div class="post-list-small__body">
+                          <h3 class="post-list-small__entry-title">
+                            <a href="single-post.html">Follow These Smartphone Habits of Successful Entrepreneurs</a>
+                          </h3>
+                          <ul class="entry__meta">
+                            <li class="entry__meta-author">
+                              <span>by</span>
+                              <a href="#">DeoThemes</a>
+                            </li>
+                            <li class="entry__meta-date">
+                              Jan 21, 2018
+                            </li>
+                          </ul>
+                        </div>                  
+                      </article>
+                    </li>
+                    <li class="post-list-small__item">
+                      <article class="post-list-small__entry clearfix">
+                        <div class="post-list-small__img-holder">
+                          <div class="thumb-container thumb-100">
+                            <a href="single-post.html">
+                              <img data-src="img/content/post_small/post_small_2.jpg" src="img/empty.png" alt="" class="post-list-small__img--rounded lazyload">
+                            </a>
+                          </div>
+                        </div>
+                        <div class="post-list-small__body">
+                          <h3 class="post-list-small__entry-title">
+                            <a href="single-post.html">Lose These 12 Bad Habits If You're Serious About Becoming a Millionaire</a>
+                          </h3>
+                          <ul class="entry__meta">
+                            <li class="entry__meta-author">
+                              <span>by</span>
+                              <a href="#">DeoThemes</a>
+                            </li>
+                            <li class="entry__meta-date">
+                              Jan 21, 2018
+                            </li>
+                          </ul>
+                        </div>                  
+                      </article>
+                    </li>
+                  </ul>
+                </aside>              
+              </div>
+             
+              <div class="col-lg-3 col-md-6">
+                <aside class="widget widget-contact">
+                  <h4 class="widget-title">Contact Us</h4>
+                  <ul class="contact-list">
+                    <li>
+                      <i class="ui-location contact-list__icon"></i>
+                      123 Street, City, Country
+                    </li>
+                    <li>
+                      <i class="ui-email contact-list__icon"></i>
+                      <a href="mailto:info@example.com">info@example.com</a>
+                    </li>
+                    <li>
+                      <i class="ui-phone contact-list__icon"></i>
+                      <a href="tel:+1234567890">+123 456 7890</a>
+                    </li>
+                  </ul>
+                </aside>
+              </div>
+
+  
+            </div>
+          </div>    
+        </div> <!-- end container -->
+      </footer> <!-- end footer -->
+  
+
+    <div id="back-to-top">
+      <a href="#top" aria-label="Go to top"><i class="ui-arrow-up"></i></a>
+    </div>
+
+  </main> <!-- end main-wrapper -->
+
+  
+  <!-- jQuery Scripts -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/easing.min.js"></script>
+  <script src="js/owl-carousel.min.js"></script>
+  <script src="js/flickity.pkgd.min.js"></script>
+  <script src="js/twitterFetcher_min.js"></script>
+  <script src="js/jquery.newsTicker.min.js"></script>  
+  <script src="js/modernizr.min.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    console.log("searchinput---",searchInput.value)
+    const suggestionsDiv = document.getElementById('suggestions');
+  
+    searchInput.addEventListener('input', function() {
+        const searchTerm = searchInput.value;
+    console.log("searchinput1111---",searchTerm)
+
+  
+        // Clear existing suggestions
+        suggestionsDiv.innerHTML = '';
+  
+        // Fetch suggestions from API and populate suggestionsDiv
+        fetch(`http://192.168.1.2:5000/searchNews/${searchTerm}`) // Replace with the actual API URL
+            .then(response => response.json())
+            .then(data => {
+                const newsArticles = data.available_news;
+                const suggestionSet = new Set();
+  
+                newsArticles.forEach(article => {
+                    const title = article.title.toLowerCase();
+                    const author = article.author ? article.author.toLowerCase() : '';
+                    const category = article.category.toLowerCase();
+  
+                    if (title.includes(searchTerm.toLowerCase())) {
+                        suggestionSet.add(title);
+                    }
+  
+                    if (author.includes(searchTerm.toLowerCase())) {
+                        suggestionSet.add(author);
+                    }
+  
+                    if (category.includes(searchTerm.toLowerCase())) {
+                        suggestionSet.add(category);
+                    }
+                });
+  
+                // Create suggestion items with links
+                suggestionSet.forEach(suggestion => {
+                    const suggestionItem = document.createElement('a');
+                    suggestionItem.className = 'suggestion-item';
+                    suggestionItem.textContent = suggestion;
+                    suggestionItem.href = `search-results.html?query=${encodeURIComponent(suggestion)}`;
+                    suggestionsDiv.appendChild(suggestionItem);
+                });
+            })
+            .catch(error => {
+                console.error('An error occurred while fetching suggestions:', error);
+            });
+    });
+  </script>
+
+</body>
+
+<!-- Mirrored from deothemes.com/envato/deus/html/search-results.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 16 Aug 2023 09:20:49 GMT -->
+</html>
